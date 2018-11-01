@@ -3,11 +3,8 @@ package cmds
 import (
 	"fmt"
 	"os"
-	"path/filepath"
 
-	homedir "github.com/mitchellh/go-homedir"
 	"github.com/spf13/cobra"
-	"github.com/spf13/viper"
 )
 
 var rootCmd = &cobra.Command{
@@ -28,43 +25,23 @@ func Execute() {
 }
 
 var (
-	cfgFile    string
+	confPath   string
 	apiVersion string
+	url        string
 )
 
 func init() {
 	cobra.OnInitialize(initConfig)
-	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.foo)")
+	// rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.foo)")
 
-	rootCmd.PersistentFlags().StringVarP(&apiVersion, "apiVersion", "v", "1.0", "The API version")
-	rootCmd.PersistentFlags().StringP("author", "a", "YOUR NAME", "Author name for copyright attribution")
+	// rootCmd.PersistentFlags().StringVarP(&apiVersion, "apiVersion", "", "v1", "The API version")
+	// rootCmd.PersistentFlags().StringVarP(&url, "url", "", "http://127.0.0.1:8080", "The url of the server")
+	//rootCmd.PersistentFlags().StringP("author", "a", "YOUR NAME", "Author name for copyright attribution")
 	//rootCmd.PersistentFlags().Bool("viper", true, "Use Viper for configuration")
-	viper.BindPFlag("author", rootCmd.PersistentFlags().Lookup("author"))
-	viper.BindPFlag("apiVersion", rootCmd.PersistentFlags().Lookup("apiVersion"))
+	//viper.BindPFlag("author", rootCmd.PersistentFlags().Lookup("author"))
+	// viper.BindPFlag("version", rootCmd.PersistentFlags().Lookup("apiVersion"))
+	// viper.BindPFlag("url", rootCmd.PersistentFlags().Lookup("url"))
 	//viper.BindPFlag("useViper", rootCmd.PersistentFlags().Lookup("viper"))
-	viper.SetDefault("author", "Difoul BEN")
-	viper.SetDefault("license", "apache 2.0")
-}
-
-func initConfig() {
-	// Don't forget to read config either from cfgFile or from home directory!
-	if cfgFile != "" {
-		// Use config file from the flag.
-		viper.SetConfigFile(cfgFile)
-	} else {
-		// Find home directory.
-		home, err := homedir.Dir()
-		if err != nil {
-			fmt.Println(err)
-			os.Exit(1)
-		}
-
-		viper.SetConfigType("json")
-		viper.SetConfigFile(filepath.Join(home, ".foo"))
-	}
-
-	if err := viper.ReadInConfig(); err != nil {
-		fmt.Println("Can't read config:", err)
-		os.Exit(1)
-	}
+	//viper.SetDefault("author", "Difoul BEN")
+	//viper.SetDefault("license", "apache 2.0")
 }
